@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   trainingdb_service:
-    image: indikakumara/trainingdbapi:0.0.1
+    image: svdbraak97/trainingdbapi:0.0.1
     environment:
       - DB_URL=sqlite:///features.db
     networks:
@@ -9,24 +9,24 @@ services:
     ports:
       - "5000:5000"
   training_service:
-    image: indikakumara/trainapi-gcs:0.0.1
+    image: svdbraak97/trainapi-gcs:0.0.1
     depends_on:
       - trainingdb_service
     environment:
       - TRAININGDB_API=http://trainingdb_service:5000/training-db/diabetes
-      - MODEL_REPO=model_repo_de2021
-      - PROJECT_ID=yourprojectidhere
+      - MODEL_REPO=model_repo_de
+      - PROJECT_ID=sunny-idiom-325515
     networks:
       - training-pipeline
     ports:
       - "5001:5000"
   prediction_service:
-    image: indikakumara/predictionapi-gcs:0.0.1
+    image: svdbraak97/predictionapi-gcs:0.0.1
     depends_on:
       - training_service
     environment:
-      - MODEL_REPO=model_repo_de2021
-      - PROJECT_ID=yourprojectidhere
+      - MODEL_REPO=model_repo_de
+      - PROJECT_ID=sunny-idiom-325515
     networks:
       - prediction-pipeline
     ports:
